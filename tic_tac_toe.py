@@ -285,11 +285,14 @@ class GamePlay(object):
                 break
             # fifth step pass to next turn
 
+def main():
+	tic_tac_toe = Board()
+	game = GamePlay()
 
-# MAIN CODE #
-tic_tac_toe = Board()
-game = GamePlay()
+	human_player, computer_player, player_one = game.PlayerChoice()
 
-human_player, computer_player, player_one = game.PlayerChoice()
+	game.TheGame(human_player, computer_player, player_one)
 
-game.TheGame(human_player, computer_player, player_one)
+
+if __name__=="__main__":
+	main()
