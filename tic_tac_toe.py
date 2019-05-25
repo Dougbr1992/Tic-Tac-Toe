@@ -147,7 +147,7 @@ class ComputerPlayer(Player):
         return True
 
     # Check if player has 2 position in row, col or tranversal and return a index where is free
-    def HasTwoInThreeAndAFree(self, velha, player_id, row_col_list):
+    def HasTwoInThreeAndAFree(self, tic_tac_toe, player_id, row_col_list):
         empty_row = None
         empty_col = None
         positions_computer_have = 0
@@ -156,7 +156,7 @@ class ComputerPlayer(Player):
             col = row_col[1]
             if tic_tac_toe.HasPosition(row, col, player_id):
                 positions_computer_have += 1
-            elif tic_tac_toe.IsFree(row, col, computer_player):
+            elif tic_tac_toe.IsFree(row, col, player_id):
                 empty_row = row
                 empty_col = col
         if positions_computer_have == 2 and empty_row is not None and empty_col is not None:
@@ -234,6 +234,7 @@ class ComputerPlayer(Player):
 class GamePlay(object):
 
     def __init__(self):
+        self.tic_tac_toe = Board()
         print("Welcome Tic Tac Toe game")
 
     def PlayerChoice(self):
@@ -256,46 +257,33 @@ class GamePlay(object):
                 return human_player, computer_player, True
                 break
 
-    def TheGame(self, human_player, computer_player, player_one):
+    def TheGame(self, player_x, player_o):
         # main code for game
-        player_one = player_one
+        players = [player_x, player_o]
         round = 0
         while True:
-            player_one = not player_one  # change turns
+            current_player = players[round % 2]
             round += 1
             # first step is check if it is game end and nobody won
             if round > 9:
-                tic_tac_toe.Print()
+                self.tic_tac_toe.Print()
                 print("Nobody won!!")
                 break
-            # secund step is True if it is the turn of the player one and False if it is the turn of the player two
-            if player_one:
-                human_player.Play(tic_tac_toe)
-            else:
-                computer_player.Play(tic_tac_toe)
-            # third step is if human won
-            if tic_tac_toe.PlayerWon(human_player.Id()):
-                tic_tac_toe.Print()
-                print(human_player.Id() + " Won!")
+            current_player.Play(self.tic_tac_toe)
+            if self.tic_tac_toe.PlayerWon(current_player.Id()):
+                self.tic_tac_toe.Print()
+                print(current_player.Id() + " Won!")
                 break
-            # fourth step is if computer won
-            if tic_tac_toe.PlayerWon(computer_player.Id()):
-                tic_tac_toe.Print()
-                print(computer_player.Id() + " Won!!")
-                break
-            # fifth step pass to next turn
 
 def main():
-
-    global tic_tac_toe, human_player, computer_player, player_one
-
-    tic_tac_toe = Board()
-
     game = GamePlay()
 
-    human_player, computer_player, player_one = game.PlayerChoice()
+    human_player, computer_player, human_is_o = game.PlayerChoice()
 
-    game.TheGame(human_player, computer_player, player_one)
+    if (human_is_o):
+        game.TheGame(computer_player, human_player)
+    else:
+        game.TheGame(human_player, computer_player)
 
 
 if __name__=="__main__":
