@@ -4,6 +4,7 @@
 # class Board is the class that is responsible for Board printing and
 # check if some player won
 
+import time
 
 class Board(object):
     # costructor with board object
@@ -255,6 +256,10 @@ class ComputerPlayer(Player):
 
     # computer play algorithm
     def ChoicePosition(self, tic_tac_toe):
+        # Sleep a little, to make the game play more realistic.
+        print("Computer thinking...\n")
+        time.sleep(1)  # seconds
+
         if self.ComputerCanWin(tic_tac_toe) is not None:
             return self.ComputerCanWin(tic_tac_toe)
 
@@ -278,7 +283,7 @@ class GamePlay(object):
 
     def PlayerChoice(self):
         while True:
-            choice = input("Digit \"X\" or \"O\" for choose your player:\n")
+            choice = input("Enter 'X' or 'O' to choose your player:\n")
             if choice.isdigit():
                 print("Value is not valid, please choose \"X\" or \"O\"")
             elif not (choice.upper() == "X" or choice.upper() == "O"):
