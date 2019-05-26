@@ -4,21 +4,21 @@ from tic_tac_toe import ComputerPlayer
 import unittest
 
 
-# Testes para o tabuleiro. Nao importa quem e o jogador. 
+# Testes para o tabuleiro. Nao importa quem e o jogador.
 class Test_Board(unittest.TestCase):
     def test_EmptyBoard(self):
         # Niguem joga nenhuma posicao.
         # Todas as posicoes sao livres.
         board = Board()
         for row in range(3):
-            for col in range(3):		
-                self.assertTrue(board.IsFree(row,col))
-    
+            for col in range(3):
+                self.assertTrue(board.IsFree(row, col))
+
     def test_PlayedPosition(self):
         # Um jogador vai jogar uma posicao... Teste se a mudansa foi feita no
         # tabuleiro. Repare que a valor do "player_id" nao importa.
         board = Board()
-        player_id = "x" 
+        player_id = "x"
         row = 2
         col = 1
         board.PlayPosition(row, col, player_id)
@@ -64,6 +64,7 @@ class Test_Board(unittest.TestCase):
         # TODO(doug): Same but with columns.
         pass
 
+
 class Test_HumanPlayer(unittest.TestCase):
     def test_IsValidForDigit(self):
         # Verifique que IsValid() retorne true se e um int >=0, <9.
@@ -83,7 +84,7 @@ class Test_HumanPlayer(unittest.TestCase):
     def test_Id(self):
         # Verifique que o ID do jogador esta correto.
         player_id = "human_id"
-        human_player = HumanPlayer(player_id = player_id)
+        human_player = HumanPlayer(player_id=player_id)
         self.assertEqual(player_id, human_player.Id())
 
 
@@ -100,13 +101,13 @@ class Test_ComputerPlayer(unittest.TestCase):
         player_id = "x"
         computer_player = ComputerPlayer(computer_id=player_id, human_id="o")
         # Set pattern:
-        # * |x |x       Expect (0,0)
-        # --+--+--
-        #   |  |
-        # --+--+--
-        #   |  |
-        board.PlayPosition(0,1,player_id)
-        board.PlayPosition(0,2,player_id)
+        #  * | x | x       Expect (0, 0)
+        # ---+---+---
+        #    |   |
+        # ---+---+---
+        #    |   |
+        board.PlayPosition(0, 1, player_id)
+        board.PlayPosition(0, 2, player_id)
         computer_player.Play(board)
         self.assertTrue(board.HasPosition(0, 0, player_id))
         self.assertTrue(board.PlayerWon(player_id))
@@ -116,11 +117,11 @@ class Test_ComputerPlayer(unittest.TestCase):
         player_id = "x"
         computer_player = ComputerPlayer(computer_id=player_id, human_id="o")
         # Set pattern:
-        #   |x |       Expect (2,1)
-        # --+--+--
-        #   |x |
-        # --+--+--
-        #   |* |
+        #    | x |       Expect (2, 1)
+        # ---+---+---
+        #    | x |
+        # ---+---+---
+        #    | * |
 
         # TODO(doug)
 
@@ -129,12 +130,11 @@ class Test_ComputerPlayer(unittest.TestCase):
         player_id = "x"
         computer_player = ComputerPlayer(computer_id=player_id, human_id="o")
         # Set pattern:
-        # x |  |        Expect (2,2)
-        # --+--+--
-        #   |x |
-        # --+--+--
-        #   |  | *
-
+        #  x |   |        Expect (2, 2)
+        # ---+---+---
+        #    | x |
+        # ---+---+---
+        #    |   | *
 
         # TODO(doug)
 
@@ -143,11 +143,11 @@ class Test_ComputerPlayer(unittest.TestCase):
         player_id = "x"
         computer_player = ComputerPlayer(computer_id=player_id, human_id="o")
         # Set pattern:
-        #   |  |x       Expect (0,2)
-        # --+--+--
-        #   |x |
-        # --+--+--
-        # * |  |
+        #    |   | x       Expect (0, 2)
+        # ---+---+---
+        #    | x |
+        # ---+---+---
+        #  * |   |
 
         # TODO(doug)
 
@@ -155,16 +155,16 @@ class Test_ComputerPlayer(unittest.TestCase):
         board = Board()
         player_id = "x"
         other_player_id = "o"
-        computer_player = ComputerPlayer(computer_id=player_id, 
-                human_id=other_player_id)
+        computer_player = ComputerPlayer(computer_id=player_id,
+                                         human_id=other_player_id)
         # Set pattern:
-        # * |o |o       Expect (0,0) to be "x"
-        # --+--+--
-        #   |  |
-        # --+--+--
-        #   |  |
-        board.PlayPosition(0,1,other_player_id)
-        board.PlayPosition(0,2,other_player_id)
+        #  * | o | o       Expect (0, 0) to be "x"
+        # ---+---+---
+        #    |   |
+        # ---+---+---
+        #    |   |
+        board.PlayPosition(0, 1, other_player_id)
+        board.PlayPosition(0, 2, other_player_id)
         computer_player.Play(board)
         self.assertTrue(board.HasPosition(0, 0, player_id))
 
@@ -172,14 +172,14 @@ class Test_ComputerPlayer(unittest.TestCase):
         board = Board()
         player_id = "x"
         other_player_id = "o"
-        computer_player = ComputerPlayer(computer_id=player_id, 
-                human_id=other_player_id)
+        computer_player = ComputerPlayer(computer_id=player_id,
+                                         human_id=other_player_id)
         # Set pattern:
-        #   | o |        Expect (2,1) to be "x"
-        # ---+--+---
-        #   | o |
-        # ---+--+---
-        #   | * |
+        #    | o |        Expect (2, 1) to be "x"
+        # ---+---+---
+        #    | o |
+        # ---+---+---
+        #    | * |
 
         # TODO(doug)
 
@@ -187,10 +187,10 @@ class Test_ComputerPlayer(unittest.TestCase):
         board = Board()
         player_id = "x"
         other_player_id = "o"
-        computer_player = ComputerPlayer(computer_id=player_id, 
-                human_id=other_player_id)
+        computer_player = ComputerPlayer(computer_id=player_id,
+                                         human_id=other_player_id)
         # Set pattern:
-        #  o |   |        Expect (2,2) to be "x"
+        #  o |   |        Expect (2, 2) to be "x"
         # ---+---+---
         #    | o |
         # ---+---+---
@@ -202,14 +202,14 @@ class Test_ComputerPlayer(unittest.TestCase):
         board = Board()
         player_id = "x"
         other_player_id = "o"
-        computer_player = ComputerPlayer(computer_id=player_id, 
-                human_id=other_player_id)
+        computer_player = ComputerPlayer(computer_id=player_id,
+                                         human_id=other_player_id)
         # Set pattern:
-        #    |   | o       Expect (2,0) to be "x"
+        #    |   | o       Expect (2, 0) to be "x"
         # ---+---+---
         #    | o |
         # ---+---+---
-        #  * |   | 
+        #  * |   |
 
         # TODO(doug)
 
@@ -217,18 +217,18 @@ class Test_ComputerPlayer(unittest.TestCase):
         board = Board()
         player_id = "x"
         other_player_id = "o"
-        computer_player = ComputerPlayer(computer_id=player_id, 
-                human_id=other_player_id)
+        computer_player = ComputerPlayer(computer_id=player_id,
+                                         human_id=other_player_id)
         # Set pattern:
-        #    | o | o       Expect (2,2) to be "x"
+        #    | o | o       Expect (2, 2) to be "x"
         # ---+---+---
         #    |   |
         # ---+---+---
         #  x | x | *
-        board.PlayPosition(0,1,other_player_id)
-        board.PlayPosition(0,2,other_player_id)
-        board.PlayPosition(2,0, player_id)
-        board.PlayPosition(2,1, player_id)
+        board.PlayPosition(0, 1, other_player_id)
+        board.PlayPosition(0, 2, other_player_id)
+        board.PlayPosition(2, 0, player_id)
+        board.PlayPosition(2, 1, player_id)
         computer_player.Play(board)
         self.assertTrue(board.HasPosition(2, 2, player_id))
         self.assertTrue(board.PlayerWon(player_id))

@@ -1,7 +1,10 @@
 ##############################################
 #             Tic Tac Toe                    #
 ##############################################
-# class Board is the class that is responsible for Board printing and check if some player won
+# class Board is the class that is responsible for Board printing and
+# check if some player won
+
+
 class Board(object):
     # costructor with board object
     def __init__(self):
@@ -22,15 +25,34 @@ class Board(object):
 
     # Print board  for each round
     def Print(self):
-        print(
-                "Note the bord:\n"
-                "   " + "\033[4m" + str(self.board[0][0]) + "/" + str(self.board[0][1]) + "/" + str(
-            self.board[0][2]) + "\n" + "\033[0m" +
-                "  " + "\033[4m" + str(self.board[1][0]) + "/" + str(self.board[1][1]) + "/" + str(
-            self.board[1][2]) + "\n" + "\033[0m" +
-                " " + "\033[4m" + str(self.board[2][0]) + "/" + str(self.board[2][1]) + "/" + str(
-            self.board[2][2]) + "\n" + "\033[0m"
-        )
+        print("Note the bord:\n"
+              "   " +
+              "\033[4m" +
+              str(self.board[0][0]) +
+              "/" +
+              str(self.board[0][1]) +
+              "/" +
+              str(self.board[0][2]) +
+              "\n" +
+              "\033[0m" +
+              "  " +
+              "\033[4m" +
+              str(self.board[1][0]) +
+              "/" +
+              str(self.board[1][1]) +
+              "/" +
+              str(self.board[1][2]) +
+              "\n" +
+              "\033[0m" +
+              " " +
+              "\033[4m" +
+              str(self.board[2][0]) +
+              "/" +
+              str(self.board[2][1]) +
+              "/" +
+              str(self.board[2][2]) +
+              "\n" +
+              "\033[0m")
 
     # Checks if position is free
     def IsFree(self, row, col):
@@ -65,8 +87,9 @@ class Board(object):
         for row in range(3):
             player_has_all_positions = True
             for col in range(3):
+                # Call HasPosition().... Here and other places. ok
                 player_has_this_position = (
-                    self.HasPosition(row, col, player_id))  # Call HasPosition().... Here and other places. ok
+                    self.HasPosition(row, col, player_id))
                 player_has_all_positions &= player_has_this_position
             if player_has_all_positions:
                 return True
@@ -76,13 +99,21 @@ class Board(object):
     def WonWithTransversal(self, player_id):
         player_has_all_positions = True
         for transversal in range(3):
-            player_has_this_position = (self.HasPosition(transversal, transversal, player_id))
+            player_has_this_position = (
+                self.HasPosition(
+                    transversal,
+                    transversal,
+                    player_id))
             player_has_all_positions &= player_has_this_position
         if player_has_all_positions:
             return True
         player_has_all_positions = True
         for transversal in range(3):
-            player_has_this_position = (self.HasPosition(transversal, 2 - transversal, player_id))
+            player_has_this_position = (
+                self.HasPosition(
+                    transversal,
+                    2 - transversal,
+                    player_id))
             player_has_all_positions &= player_has_this_position
         if player_has_all_positions:
             return True
@@ -90,10 +121,12 @@ class Board(object):
 
     # Check if player won in any direction
     def PlayerWon(self, player_id):
-        return self.WonWithRow(player_id) or self.WonWithCol(player_id) or self.WonWithTransversal(player_id)
+        return self.WonWithRow(player_id) or self.WonWithCol(
+            player_id) or self.WonWithTransversal(player_id)
 
-# this class is responsible for manage the plays
+
 class Player(object):
+    # this class is responsible for manage the plays
     def __init__(self, player_id):
         self.player_id = player_id
 
@@ -104,7 +137,8 @@ class Player(object):
         while not is_valid:
             position = self.ChoicePosition(tic_tac_toe)
             if self.IsValid(tic_tac_toe, position):
-                row = tic_tac_toe.ToRow(position)  # Row -> row, Col -> col (style guide) ok
+                # Row -> row, Col -> col (style guide) ok
+                row = tic_tac_toe.ToRow(position)
                 col = tic_tac_toe.ToCol(position)
                 is_valid = tic_tac_toe.PlayPosition(row, col, self.Id())
 
@@ -115,7 +149,8 @@ class Player(object):
     def IsValid(self, tic_tac_toe, value):
         pass
 
-# this class is responsible for Human player
+
+# This class is responsible for Human player.
 class HumanPlayer(Player):
     def __init__(self, player_id):
         Player.__init__(self, player_id)
@@ -136,7 +171,8 @@ class HumanPlayer(Player):
             return False
         return True
 
-# this class is responsible for computer player and game computer algorithm
+
+# This class is responsible for computer player and game computer algorithm.
 class ComputerPlayer(Player):
     def __init__(self, computer_id, human_id):
         Player.__init__(self, computer_id)
@@ -146,7 +182,8 @@ class ComputerPlayer(Player):
     def IsValid(self, tic_tac_toe, posicao):
         return True
 
-    # Check if player has 2 position in row, col or tranversal and return a index where is free
+    # Check if player has 2 position in row, col or tranversal and return a
+    # index where is free
     def HasTwoInThreeAndAFree(self, tic_tac_toe, player_id, row_col_list):
         empty_row = None
         empty_col = None
@@ -194,7 +231,8 @@ class ComputerPlayer(Player):
 
         # Verify all.
         for tres_posicoes in groups_of_tree:
-            can_win, empty_row, empty_col = self.HasTwoInThreeAndAFree(tic_tac_toe, player_id, tres_posicoes)
+            can_win, empty_row, empty_col = self.HasTwoInThreeAndAFree(
+                tic_tac_toe, player_id, tres_posicoes)
             if can_win:
                 return can_win, empty_row, empty_col
 
@@ -220,7 +258,8 @@ class ComputerPlayer(Player):
             return self.ComputerCanWin(tic_tac_toe)
 
         if self.HumanCanWin(tic_tac_toe) is not None:
-            return self.HumanCanWin(tic_tac_toe)  # More readable if you switch the order: ok
+            # More readable if you switch the order: ok
+            return self.HumanCanWin(tic_tac_toe)
 
         from random import randint
         while True:
@@ -232,13 +271,12 @@ class ComputerPlayer(Player):
 
 
 class GamePlay(object):
-
     def __init__(self):
         self.tic_tac_toe = Board()
         print("Welcome Tic Tac Toe game")
 
     def PlayerChoice(self):
-        while True:  # Put this in a function, or better yet - put this and the play loop in a GamePlay class? ok
+        while True: 
             choice = input("Digit \"X\" or \"O\" for choose your player:\n")
             if choice.isdigit():
                 print("Value is not valid, please choose \"X\" or \"O\"")
@@ -247,13 +285,15 @@ class GamePlay(object):
             elif choice.upper() == "X":
                 human_id = "\033[4m\033[91mX\033[0m\033[4m"
                 human_player = HumanPlayer(human_id)
-                computer_player = ComputerPlayer("\033[4m\033[94mO\033[0m\033[4m", human_id)
+                computer_player = ComputerPlayer(
+                    "\033[4m\033[94mO\033[0m\033[4m", human_id)
                 return human_player, computer_player, False
                 break
             elif choice.upper() == "O":
                 human_id = "\033[4m\033[94mO\033[0m\033[4m"
                 human_player = HumanPlayer(human_id)
-                computer_player = ComputerPlayer("\033[4m\033[91mX\033[0m\033[4m", human_id)
+                computer_player = ComputerPlayer(
+                    "\033[4m\033[91mX\033[0m\033[4m", human_id)
                 return human_player, computer_player, True
                 break
 
@@ -275,6 +315,7 @@ class GamePlay(object):
                 print(current_player.Id() + " Won!")
                 break
 
+
 def main():
     game = GamePlay()
 
@@ -286,5 +327,5 @@ def main():
         game.TheGame(human_player, computer_player)
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
