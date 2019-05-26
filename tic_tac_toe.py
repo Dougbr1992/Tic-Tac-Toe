@@ -33,7 +33,7 @@ class Board(object):
         )
 
     # Checks if position is free
-    def IsFree(self, row, col, player_id):
+    def IsFree(self, row, col):
         return str(self.board[row][col]).isdigit()
 
     def PrintMessage(self, row, col):
@@ -41,7 +41,7 @@ class Board(object):
 
     # put player_id in a position
     def PlayPosition(self, row, col, player_id):
-        if self.IsFree(row, col, player_id):
+        if self.IsFree(row, col):
             self.board[row][col] = player_id
             return True
         self.PrintMessage(row, col)
@@ -156,7 +156,7 @@ class ComputerPlayer(Player):
             col = row_col[1]
             if tic_tac_toe.HasPosition(row, col, player_id):
                 positions_computer_have += 1
-            elif tic_tac_toe.IsFree(row, col, player_id):
+            elif tic_tac_toe.IsFree(row, col):
                 empty_row = row
                 empty_col = col
         if positions_computer_have == 2 and empty_row is not None and empty_col is not None:
@@ -227,7 +227,7 @@ class ComputerPlayer(Player):
             i = randint(0, 8)
             Row = tic_tac_toe.ToRow(i)
             Col = tic_tac_toe.ToCol(i)
-            if tic_tac_toe.IsFree(Row, Col, self.player_id):
+            if tic_tac_toe.IsFree(Row, Col):
                 return i
 
 
