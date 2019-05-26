@@ -103,7 +103,7 @@ class Player(object):
         is_valid = False
         while not is_valid:
             position = self.ChoicePosition(tic_tac_toe)
-            if self.IsValid(position):
+            if self.IsValid(tic_tac_toe, position):
                 row = tic_tac_toe.ToRow(position)  # Row -> row, Col -> col (style guide) ok
                 col = tic_tac_toe.ToCol(position)
                 is_valid = tic_tac_toe.PlayPosition(row, col, self.Id())
@@ -112,7 +112,7 @@ class Player(object):
         return self.player_id
 
     # Subclasses must implement this.
-    def IsValid(self):
+    def IsValid(self, tic_tac_toe, value):
         pass
 
 # this class is responsible for Human player
@@ -125,7 +125,7 @@ class HumanPlayer(Player):
         return input("Enter a position:\n")
 
     # Checks if position is a number from 0 to 8
-    def IsValid(self, position):  # 0-8
+    def IsValid(self, tic_tac_toe, position):  # 0-8
         if not position.isdigit():
             print("\"" + position + "\"" + " is not a number from 0 to 8")
             tic_tac_toe.Print()
@@ -143,7 +143,7 @@ class ComputerPlayer(Player):
         self.human_id = human_id
 
     # retur true only to answer "class player"
-    def IsValid(self, posicao):
+    def IsValid(self, tic_tac_toe, posicao):
         return True
 
     # Check if player has 2 position in row, col or tranversal and return a index where is free
