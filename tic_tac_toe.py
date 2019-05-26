@@ -147,7 +147,7 @@ class Player(object):
 
     # Subclasses must implement this.
     def IsValid(self, tic_tac_toe, value):
-        pass
+        return True
 
 
 # This class is responsible for Human player.
@@ -196,7 +196,8 @@ class ComputerPlayer(Player):
             elif tic_tac_toe.IsFree(row, col):
                 empty_row = row
                 empty_col = col
-        if positions_computer_have == 2 and empty_row is not None and empty_col is not None:
+        if positions_computer_have == 2 and empty_row is not None \
+                and empty_col is not None:
             return True, empty_row, empty_col
         return False, None, None
 
@@ -276,7 +277,7 @@ class GamePlay(object):
         print("Welcome Tic Tac Toe game")
 
     def PlayerChoice(self):
-        while True: 
+        while True:
             choice = input("Digit \"X\" or \"O\" for choose your player:\n")
             if choice.isdigit():
                 print("Value is not valid, please choose \"X\" or \"O\"")

@@ -1,6 +1,8 @@
 from tic_tac_toe import Board
 from tic_tac_toe import HumanPlayer
 from tic_tac_toe import ComputerPlayer
+from tic_tac_toe import Player
+from tic_tac_toe import GamePlay
 import unittest
 
 
@@ -232,6 +234,70 @@ class Test_ComputerPlayer(unittest.TestCase):
         computer_player.Play(board)
         self.assertTrue(board.HasPosition(2, 2, player_id))
         self.assertTrue(board.PlayerWon(player_id))
+
+
+# Mock player to be used by tests for GamePlay class. Does not play anything
+# only counts turns.
+class MockCountingPlayer(Player):
+    def __init__(self, player_id):
+        # Initialize base class.
+        Player.__init__(self, player_id)
+        self.counter = 0
+
+    def Play(self, board):
+        self.IncreaseCounter()
+
+    def IncreaseCounter(self):
+        # Does not actually play anything. Counts turns the player took.
+        self.counter += 1
+
+
+# Mock player to be used by GamePlayClass. Plays increasing positions one step
+# at a time and rolls back to first position when the board is over.
+class MockAdvancingPlayer(MockCountingPlayer):
+    def __init__(self, player_id):
+        # Initialize base class.
+        MockCountingPlayer.__init__(self, player_id)
+        self.current_row = 0
+        self.current_col = 0
+
+    def Play(self, board):
+        self.IncreaseCounter()
+        board.PlayPosition(self.current_row, self.current_col, self.Id())
+        # Increment position and roll back if needed.
+        self.current_col += 1
+        if (self.current_col == 3):
+            self.current_col = 0
+            self.current_row += 1
+        if (self.current_row == 3):
+            self.current_row = 0
+
+
+# Tests for the game play... Verifique se cada jogador esta jogando, se
+# vai parar depois de 9 vezes, e se vai parar quando alguem vence.
+class Test_GamePlay(unittest.TestCase):
+    def test_StopsAfterNine(self):
+        board = Board()
+        player_one = MockCountingPlayer("x")
+        player_two = MockCountingPlayer("o")
+        game = GamePlay()
+        game.TheGame(player_one, player_two)
+        # In total, the players should take 9 turns.
+        self.assertEqual(player_one.counter + player_two.counter, 9)
+        # One player should have 4 turns and the other should have 5 turns.
+        self.assertEqual(abs(player_one.counter - player_two.counter), 1)
+
+    def test_StopsEarlyIfWinner(self):
+        board = Board()
+        # One player doesn't do anything (except count turns).
+        player_one = MockCountingPlayer("x")
+        player_two = MockAdvancingPlayer("o")
+        # Other player plays one position at a time (and counts turns).
+        # Once one row is full, game play should stop early.
+        # Verify that it took less than 9 turns.
+        game = GamePlay()
+        game.TheGame(player_one, player_two)
+        self.assertLess(player_one.counter + player_two.counter, 9)
 
 
 if __name__ == '__main__':
